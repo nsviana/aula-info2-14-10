@@ -1,0 +1,173 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JavaScript — Estruturas de Repetição e DOM</title><style>
+:root{--bg:#f5f7f8;--paper:#fff;--ink:#17272b;--mut:#617177;--line:#dfe6e7;--t:#0f766e;--soft:#e9f5f3;--gold:#a16207;--blue:#315b7d;--red:#a43f3f;--code:#0b1720;--codeInk:#e7f0f2;--green:#2f6f55;--violet:#5b4b8a}
+*{box-sizing:border-box}html,body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+body{overflow:hidden}.s{position:absolute;inset:0;display:none;overflow:auto;padding:5vh 7vw 86px;background:radial-gradient(circle at 94% 5%,#e8f5f2,transparent 25%),linear-gradient(#fff,#f8faf9)}
+.s.on{display:flex;flex-direction:column}.hero{justify-content:center}h1,h2{font-family:Georgia,serif;line-height:1.05;margin:.15em 0}h1{font-size:clamp(42px,6vw,78px);max-width:1180px}h2{font-size:clamp(32px,4.2vw,56px)}h3{margin:5px 0 9px}
+p{font-size:clamp(16px,1.42vw,21px);line-height:1.55;color:#34474d}.lead{font-size:clamp(20px,2vw,29px);max-width:1120px}.k{font-size:13px;letter-spacing:.15em;text-transform:uppercase;color:var(--t);font-weight:800}.top{display:flex;justify-content:space-between;gap:20px}.n{font-size:13px;font-weight:800;color:#9aa6aa}
+.g2,.g3,.g4{display:grid;gap:18px;margin-top:22px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g40{display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);gap:22px;align-items:start;margin-top:18px}.g55{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start;margin-top:18px}
+.c{background:#fff;border:1px solid var(--line);border-radius:17px;padding:21px;box-shadow:0 7px 22px #17333a0d}.c p,.c li{font-size:16px;line-height:1.45}.c ul{padding-left:22px}.c li{margin:7px 0}.tag{display:inline-block;padding:5px 9px;border-radius:99px;background:var(--soft);color:#115e59;font-size:11px;font-weight:800;text-transform:uppercase}.call{margin-top:20px;border-left:5px solid var(--t);background:var(--soft);padding:16px 20px;border-radius:0 12px 12px 0}.warn{border-left-color:var(--gold);background:#fff8e9}.danger{border-left-color:var(--red);background:#fff1f1}.case{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 28px;margin-top:18px}.q{font-family:Georgia,serif;font-size:clamp(24px,2.8vw,39px);font-weight:700}.steps{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:24px 0}.steps span{background:#fff;border:1px solid var(--line);padding:10px 14px;border-radius:11px;font-weight:700}
+.diagram{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:18px;overflow:auto}.diagram .mermaid{background:#fff!important;margin:0 auto;text-align:center;min-width:560px}.diagram svg{width:100%;height:auto;max-height:58vh}.diagram.sequence .mermaid{min-width:1120px}.diagram.sequence svg{width:auto;min-width:1120px;max-width:none;max-height:none}.diagram.compact .mermaid{min-width:420px}.cap{font-size:12px;color:#6f7f84;margin:8px 4px 0}
+.mermaid-fallback{border:1px dashed #c9d6d8;background:#f8fbfb;color:#274247}.mermaid-fallback::before{content:"Código Mermaid - renderização indisponível";display:block;margin-bottom:10px;font:800 12px Inter,Segoe UI,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#a16207}
+pre{margin:0;background:var(--code);color:var(--codeInk);border-radius:15px;padding:18px 20px;overflow:auto;font:14px/1.5 Consolas,'Courier New',monospace;box-shadow:inset 0 0 0 1px #ffffff12;max-height:64vh}.code-title{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#597077;margin:0 0 7px}.small pre{font-size:13px;line-height:1.42;max-height:58vh}
+.compare{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);margin-top:18px}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:15px;vertical-align:top}th{background:#eef6f4;color:#23484a}tr:last-child td{border-bottom:0}.mini{font-size:14px!important}.answer{border-left:4px solid var(--blue)}.bar{position:absolute;bottom:0;left:0;height:5px;background:var(--t)}
+.controls{position:fixed;z-index:10;right:20px;bottom:16px;background:#ffffffed;border:1px solid var(--line);border-radius:99px;padding:7px;box-shadow:0 10px 30px #17333a20}.controls button{border:0;background:#edf3f2;width:36px;height:36px;border-radius:50%;font-size:17px;cursor:pointer}.controls span{display:inline-block;width:72px;text-align:center;font-size:12px;font-weight:800;color:#65757a}.controls button:hover{background:#dbe9e6}
+.pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:13px;font-weight:700;color:#53656a}.badge{width:9px;height:9px;border-radius:50%;background:var(--t)}.filelink{display:inline-flex;align-items:center;gap:9px;background:#eef6f4;border:1px solid #cfe1de;border-radius:12px;padding:12px 14px;font-weight:800;color:#115e59;text-decoration:none}.filelink:hover{background:#dff0ec}.mono{font-family:Consolas,'Courier New',monospace}.hl{color:#0f766e;font-weight:800}.mut{color:var(--mut)}
+@media(max-width:900px){body{overflow:auto}.s{position:relative;min-height:100vh}.g2,.g3,.g4,.g40,.g55{grid-template-columns:1fr}.controls{right:10px;bottom:10px}.diagram .mermaid{min-width:520px}pre{max-height:none}}
+@media print{body{overflow:visible}.controls{display:none}.s{display:flex!important;position:relative;min-height:100vh;page-break-after:always}}
+</style></head><body><section class="s on"><div class="top"><div><div class="k">Programação para Web · 2026/02</div><h2>Estruturas de repetição em JavaScript</h2></div><div class="n">01</div></div><p class="lead">Da pseudolinguagem ao JavaScript no navegador. Repetição com <b>for</b>, <b>while</b> e <b>do...while</b>, integrando funções, eventos e DOM.</p><div class="steps"><span>for</span><span>while</span><span>DOM</span><span>querySelector</span><span>querySelectorAll</span><span>addEventListener</span></div><p>IFPI · Curso Técnico em Informática · Conteúdo, exemplos resolvidos e exercícios</p><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">1 · Retomada</div><h2>O que já sabemos fazer</h2></div><div class="n">02</div></div><div class="g2"><div class="c"><h3>HTML + evento</h3><pre>&lt;input id=&quot;idade&quot; type=&quot;number&quot;&gt;
+&lt;button onclick=&quot;verificar()&quot;&gt;Verificar&lt;/button&gt;
+&lt;p id=&quot;resultado&quot;&gt;&lt;/p&gt;</pre></div><div class="c"><h3>Função + DOM</h3><pre>function verificar() {
+  let idade = Number(document.getElementById(&quot;idade&quot;).value);
+  if (idade &gt;= 18) {
+    document.getElementById(&quot;resultado&quot;).innerHTML = &quot;Maior&quot;;
+  } else {
+    document.getElementById(&quot;resultado&quot;).innerHTML = &quot;Menor&quot;;
+  }
+}</pre></div></div><div class="call">A novidade é repetir ações dentro das funções sem escrever o mesmo comando várias vezes.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">2 · Definição</div><h2>O que é uma estrutura de repetição?</h2></div><div class="n">03</div></div><p class="lead">É um comando que permite executar um bloco de instruções várias vezes, conforme uma condição.</p><div class="g2"><div class="c"><h3>Sem repetição</h3><pre>console.log(1);
+console.log(2);
+console.log(3);</pre></div><div class="c"><h3>Com repetição</h3><pre>for (let i = 1; i &lt;= 3; i++) {
+  console.log(i);
+}</pre></div></div><div class="call warn">A condição deve permitir que a repetição termine.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">3 · Ponte com Algoritmos</div><h2>Do PARA ao for</h2></div><div class="n">04</div></div><div class="g2"><div class="c"><h3>Pseudolinguagem</h3><pre>PARA i DE 1 ATÉ 5 FAÇA
+    ESCREVA(i)
+FIMPARA</pre></div><div class="c"><h3>JavaScript</h3><pre>for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}</pre></div></div><div class="call">A lógica já é conhecida: estamos aprendendo a escrevê-la em JavaScript.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">4 · Sintaxe</div><h2>As três partes do for</h2></div><div class="n">05</div></div><pre>for (let i = 1; i &lt;= 5; i++) {
+  console.log(i);
+}</pre><div class="g3"><div class="c"><h3>Inicialização</h3><p><code>let i = 1</code>: começo da contagem.</p></div><div class="c"><h3>Condição</h3><p><code>i <= 5</code>: quando continuar.</p></div><div class="c"><h3>Atualização</h3><p><code>i++</code>: como avançar.</p></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">5 · Simulação</div><h2>Acompanhe cada repetição</h2></div><div class="n">06</div></div><table class="compare"><tr><th>Valor de i</th><th>Condição i &lt;= 5</th><th>Ação</th></tr><tr><td>1</td><td>Sim</td><td>Exibe 1</td></tr><tr><td>2</td><td>Sim</td><td>Exibe 2</td></tr><tr><td>3</td><td>Sim</td><td>Exibe 3</td></tr><tr><td>4</td><td>Sim</td><td>Exibe 4</td></tr><tr><td>5</td><td>Sim</td><td>Exibe 5</td></tr><tr><td>6</td><td>Não</td><td>Encerra</td></tr></table><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">6 · Exemplos</div><h2>Contar para frente e para trás</h2></div><div class="n">07</div></div><div class="g2"><div class="c"><h3>De 1 até 10</h3><pre>for (let i = 1; i &lt;= 10; i++) {
+  console.log(i);
+}</pre></div><div class="c"><h3>De 10 até 1</h3><pre>for (let i = 10; i &gt;= 1; i--) {
+  console.log(i);
+}</pre></div></div><div class="call"><code>i++</code> aumenta 1. <code>i--</code> diminui 1. <code>i += 2</code> aumenta 2.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">7 · DOM conhecido</div><h2>Exemplo resolvido: mostrar 1 até N</h2></div><div class="n">08</div></div><div class="g2"><div class="c"><h3>index.html</h3><pre>&lt;input id=&quot;numero&quot; type=&quot;number&quot;&gt;
+&lt;button onclick=&quot;mostrar()&quot;&gt;Mostrar&lt;/button&gt;
+&lt;p id=&quot;resultado&quot;&gt;&lt;/p&gt;</pre></div><div class="c"><h3>script.js</h3><pre>function mostrar() {
+  let n = Number(document.getElementById(&quot;numero&quot;).value);
+  let texto = &quot;&quot;;
+  for (let i = 1; i &lt;= n; i++) {
+    texto += i + &quot; &quot;;
+  }
+  document.getElementById(&quot;resultado&quot;).innerHTML = texto;
+}</pre></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">8 · Aplicação</div><h2>Exemplo resolvido: tabuada</h2></div><div class="n">09</div></div><div class="g2"><div class="c"><h3>HTML</h3><pre>&lt;input id=&quot;numero&quot; type=&quot;number&quot;&gt;
+&lt;button onclick=&quot;tabuada()&quot;&gt;Gerar&lt;/button&gt;
+&lt;p id=&quot;saida&quot;&gt;&lt;/p&gt;</pre></div><div class="c"><h3>JavaScript</h3><pre>function tabuada() {
+  let n = Number(document.getElementById(&quot;numero&quot;).value);
+  let texto = &quot;&quot;;
+  for (let i = 1; i &lt;= 10; i++) {
+    texto += n + &quot; x &quot; + i + &quot; = &quot; + (n * i) + &quot;&lt;br&gt;&quot;;
+  }
+  document.getElementById(&quot;saida&quot;).innerHTML = texto;
+}</pre></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">9 · Integração</div><h2>Repetição com decisão</h2></div><div class="n">10</div></div><p>Em cada volta do <code>for</code>, o <code>if</code> verifica uma condição.</p><pre>let texto = &quot;&quot;;
+for (let i = 1; i &lt;= 10; i++) {
+  if (i % 2 === 0) {
+    texto += i + &quot; é par&lt;br&gt;&quot;;
+  } else {
+    texto += i + &quot; é ímpar&lt;br&gt;&quot;;
+  }
+}
+document.getElementById(&quot;saida&quot;).innerHTML = texto;</pre><div class="call">O operador <code>%</code> calcula o resto da divisão.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">10 · Acumulador</div><h2>Somando os números de 1 a 5</h2></div><div class="n">11</div></div><div class="g2"><div class="c"><h3>Código</h3><pre>let soma = 0;
+for (let i = 1; i &lt;= 5; i++) {
+  soma += i;
+}
+console.log(soma); // 15</pre></div><div class="c"><h3>Passo a passo</h3><p>Depois de cada volta, a soma vale:</p><p><b>1 → 3 → 6 → 10 → 15</b></p><p>Um acumulador guarda o resultado parcial.</p></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">11 · while</div><h2>Repetir enquanto a condição for verdadeira</h2></div><div class="n">12</div></div><div class="g2"><div class="c"><h3>Pseudolinguagem</h3><pre>i ← 1
+ENQUANTO i &lt;= 5 FAÇA
+    ESCREVA(i)
+    i ← i + 1
+FIMENQUANTO</pre></div><div class="c"><h3>JavaScript</h3><pre>let i = 1;
+while (i &lt;= 5) {
+  console.log(i);
+  i++;
+}</pre></div></div><div class="call warn">Não esqueça de atualizar <code>i</code> dentro do <code>while</code>.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">12 · Comparação</div><h2>for, while e do...while</h2></div><div class="n">13</div></div><table class="compare"><tr><th>Estrutura</th><th>Quando usar</th></tr><tr><td><code>for</code></td><td>Quando a contagem tem início, condição e atualização claros.</td></tr><tr><td><code>while</code></td><td>Quando queremos repetir enquanto uma condição for verdadeira.</td></tr><tr><td><code>do...while</code></td><td>Quando o bloco precisa executar pelo menos uma vez.</td></tr></table><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">13 · Complemento</div><h2>do...while testa no final</h2></div><div class="n">14</div></div><pre>let i = 1;
+do {
+  console.log(i);
+  i++;
+} while (i &lt;= 5);</pre><div class="call">O <code>while</code> verifica antes. O <code>do...while</code> executa antes e verifica depois.</div><p>Na prática inicial, nosso foco principal será o <b>for</b>.</p><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">14 · DOM</div><h2>getElementById e querySelector</h2></div><div class="n">15</div></div><div class="g2"><div class="c"><h3>Método conhecido</h3><pre>document.getElementById(&quot;titulo&quot;)</pre></div><div class="c"><h3>Nova alternativa</h3><pre>document.querySelector(&quot;#titulo&quot;)</pre></div></div><div class="call"><code>querySelector()</code> usa seletores CSS: <code>#id</code>, <code>.classe</code> e nome de tag.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">15 · Exemplo simples</div><h2>Selecionando um elemento com querySelector</h2></div><div class="n">16</div></div><div class="g2"><div class="c"><h3>HTML</h3><pre>&lt;h2 id=&quot;titulo&quot;&gt;Olá&lt;/h2&gt;
+&lt;p class=&quot;aviso&quot;&gt;Atenção&lt;/p&gt;</pre></div><div class="c"><h3>JavaScript</h3><pre>document.querySelector(&quot;#titulo&quot;).innerHTML = &quot;Bem-vindo&quot;;
+document.querySelector(&quot;.aviso&quot;).style.color = &quot;red&quot;;</pre></div></div><div class="call">O <code>querySelector()</code> seleciona somente o primeiro elemento correspondente.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">16 · Coleções</div><h2>querySelectorAll: selecionar vários</h2></div><div class="n">17</div></div><div class="g2"><div class="c"><h3>HTML</h3><pre>&lt;p class=&quot;item&quot;&gt;HTML&lt;/p&gt;
+&lt;p class=&quot;item&quot;&gt;CSS&lt;/p&gt;
+&lt;p class=&quot;item&quot;&gt;JavaScript&lt;/p&gt;</pre></div><div class="c"><h3>JavaScript</h3><pre>let itens = document.querySelectorAll(&quot;.item&quot;);
+console.log(itens.length); // 3</pre></div></div><div class="call">O resultado é uma coleção (NodeList). <code>length</code> informa a quantidade de elementos.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">17 · DOM + for</div><h2>Alterando vários elementos</h2></div><div class="n">18</div></div><div class="g2"><div class="c"><h3>HTML</h3><pre>&lt;p class=&quot;item&quot;&gt;HTML&lt;/p&gt;
+&lt;p class=&quot;item&quot;&gt;CSS&lt;/p&gt;
+&lt;p class=&quot;item&quot;&gt;JS&lt;/p&gt;
+&lt;button onclick=&quot;destacar()&quot;&gt;Destacar&lt;/button&gt;</pre></div><div class="c"><h3>JavaScript</h3><pre>function destacar() {
+  let itens = document.querySelectorAll(&quot;.item&quot;);
+  for (let i = 0; i &lt; itens.length; i++) {
+    itens[i].style.color = &quot;blue&quot;;
+  }
+}</pre></div></div><div class="call">A primeira posição é <code>0</code>. <code>itens[i]</code> acessa o elemento da posição atual.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">18 · Eventos</div><h2>De onclick para addEventListener</h2></div><div class="n">19</div></div><div class="g2"><div class="c"><h3>Antes</h3><pre>&lt;button onclick=&quot;mostrar()&quot;&gt;Mostrar&lt;/button&gt;</pre></div><div class="c"><h3>Agora</h3><pre>&lt;button id=&quot;botao&quot;&gt;Mostrar&lt;/button&gt;
+
+// script.js
+function mostrar() {
+  alert(&quot;Olá!&quot;);
+}
+document.getElementById(&quot;botao&quot;)
+  .addEventListener(&quot;click&quot;, mostrar);</pre></div></div><div class="call">O clique e a função são os mesmos. Agora a associação é feita no JavaScript.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">19 · Sintaxe</div><h2>Como ler addEventListener</h2></div><div class="n">20</div></div><pre>let botao = document.querySelector(&quot;#botao&quot;);
+botao.addEventListener(&quot;click&quot;, mostrar);
+
+function mostrar() {
+  document.querySelector(&quot;#resultado&quot;).innerHTML = &quot;Funcionou!&quot;;
+}</pre><div class="g3"><div class="c"><h3>botao</h3><p>Elemento encontrado.</p></div><div class="c"><h3>"click"</h3><p>Evento observado.</p></div><div class="c"><h3>mostrar</h3><p>Função a executar, sem parênteses.</p></div></div><div class="call warn">Coloque o <code>script</code> no final do <code>body</code> ou use <code>defer</code>.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">20 · Integração</div><h2>Exemplo completo: sequência com evento moderno</h2></div><div class="n">21</div></div><div class="g2"><div class="c"><h3>index.html</h3><pre>&lt;input id=&quot;limite&quot; type=&quot;number&quot;&gt;
+&lt;button id=&quot;gerar&quot;&gt;Gerar&lt;/button&gt;
+&lt;p id=&quot;resultado&quot;&gt;&lt;/p&gt;
+&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;</pre></div><div class="c"><h3>script.js</h3><pre>function gerarNumeros() {
+  let n = Number(document.querySelector(&quot;#limite&quot;).value);
+  let texto = &quot;&quot;;
+  for (let i = 1; i &lt;= n; i++) {
+    texto += i + &quot; &quot;;
+  }
+  document.querySelector(&quot;#resultado&quot;).innerHTML = texto;
+}
+document.querySelector(&quot;#gerar&quot;)
+  .addEventListener(&quot;click&quot;, gerarNumeros);</pre></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">21 · Revisão</div><h2>Síntese do conteúdo</h2></div><div class="n">22</div></div><table class="compare"><tr><th>Comando</th><th>Finalidade</th></tr><tr><td><code>for</code></td><td>Repetir usando contador.</td></tr><tr><td><code>while</code></td><td>Repetir enquanto uma condição for verdadeira.</td></tr><tr><td><code>do...while</code></td><td>Executar ao menos uma vez.</td></tr><tr><td><code>querySelector</code></td><td>Encontrar o primeiro elemento correspondente.</td></tr><tr><td><code>querySelectorAll</code></td><td>Encontrar vários elementos.</td></tr><tr><td><code>addEventListener</code></td><td>Associar evento e função no JS.</td></tr></table><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">22 · Atividade</div><h2>Orientações para os exercícios</h2></div><div class="n">23</div></div><div class="case"><p>Construa interfaces HTML simples com campos, botões e elementos de resultado. Utilize funções, estruturas de repetição e DOM. Comece com <code>getElementById</code> e <code>onclick</code>; nas últimas questões, use os novos seletores e eventos.</p></div><div class="call">Não use arrays, objetos, <code>createElement</code> nem bibliotecas externas.</div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">23 · Exercícios</div><h2>Questões 1 a 4</h2></div><div class="n">24</div></div><div class="g2"><div class="c"><h3>1. Sequência numérica</h3><p>Leia N e apresente de 1 até N em um parágrafo. Use for, função, onclick e getElementById.</p></div><div class="c"><h3>2. Tabuada</h3><p>Leia um número e mostre a tabuada de 1 a 10, uma operação por linha.</p></div><div class="c"><h3>3. Números pares</h3><p>Leia N e mostre os números pares de 1 até N. Use for e if.</p></div><div class="c"><h3>4. Contagem regressiva</h3><p>Leia um número e conte dele até zero usando for.</p></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">23 · Exercícios</div><h2>Questões 5 a 8</h2></div><div class="n">25</div></div><div class="g2"><div class="c"><h3>5. Somatório</h3><p>Leia N e calcule a soma dos números de 1 até N com acumulador.</p></div><div class="c"><h3>6. Tabuada com limite</h3><p>Leia o número e o multiplicador máximo; mostre a tabuada até esse limite.</p></div><div class="c"><h3>7. Contagem com while</h3><p>Refaça a sequência numérica usando while, comparando com for.</p></div><div class="c"><h3>8. Nova seleção</h3><p>Refaça a tabuada trocando getElementById por querySelector.</p></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">23 · Exercícios</div><h2>Questões 9 a 12</h2></div><div class="n">26</div></div><div class="g2"><div class="c"><h3>9. Destacar parágrafos</h3><p>Crie quatro parágrafos com classe item e altere a cor de todos usando querySelectorAll e for.</p></div><div class="c"><h3>10. Contar elementos</h3><p>Crie cinco parágrafos com classe aviso e mostre a quantidade usando querySelectorAll e length.</p></div><div class="c"><h3>11. Evento sem onclick</h3><p>Refaça a tabuada usando addEventListener para o botão.</p></div><div class="c"><h3>12. Desafio final</h3><p>Leia N e mostre de 1 até N indicando par ou ímpar, com for, if, querySelector e addEventListener.</p></div></div><div class="bar"></div></section><section class="s "><div class="top"><div><div class="k">26 · Encerramento</div><h2>Da lógica à página Web</h2></div><div class="n">27</div></div><p class="lead">O algoritmo continua sendo o ponto de partida. Agora você sabe traduzi-lo para JavaScript e apresentar seus resultados na página.</p><div class="steps"><span>Entrada</span><span>Evento</span><span>Função</span><span>Repetição</span><span>DOM</span><span>Resultado</span></div><div class="bar"></div></section><section class="s"><div class="top"><div><div class="k">Atividade integradora · proposta</div><h2>HTML e CSS prontos; você escreve o JavaScript</h2></div><div class="n">ATIVIDADE</div></div><div class="case"><p><b>Desafio:</b> a página já está construída e estilizada. Sua tarefa é programar os três botões. Use <code>querySelector()</code>, <code>for</code>, <code>if</code> e <code>addEventListener()</code>.</p></div><div class="g3"><div class="c"><h3>Mostrar todos</h3><p>Exiba os números de 1 até o limite digitado.</p></div><div class="c"><h3>Mostrar pares</h3><p>Exiba somente os números pares até o limite.</p></div><div class="c"><h3>Limpar</h3><p>Apague o resultado da página.</p></div></div><div class="call">Não altere o HTML ou o CSS. Trabalhe somente no arquivo <code>script.js</code>.</div><div class="bar"></div></section><section class="s"><div class="top"><div><div class="k">Atividade integradora · aparência</div><h2>Como a página aparece no navegador</h2></div><div class="n">ATIVIDADE</div></div><p>Esta é a apresentação visual que o HTML e o CSS já produzem, antes de programar os botões:</p><div style="max-width:570px;margin:8px auto;background:#fff;border:1px solid #dfe6e7;border-radius:18px;padding:25px;box-shadow:0 8px 25px #0001;font-family:Arial,sans-serif"><div style="font-size:27px;color:#115e59;font-weight:800">Laboratório de Números</div><p>Digite um limite e escolha uma ação.</p><div style="font-size:14px;font-weight:700">Número final</div><div style="padding:11px;border:1px solid #ccc;border-radius:4px;margin:7px 0 16px">10</div><div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#0f766e;color:#fff;border-radius:8px;padding:10px">Mostrar todos</span><span style="background:#0f766e;color:#fff;border-radius:8px;padding:10px">Mostrar pares</span><span style="background:#0f766e;color:#fff;border-radius:8px;padding:10px">Limpar</span></div><h3 style="margin-top:22px">Resultado</h3><div style="background:#e9f5f3;padding:18px;border-radius:10px;line-height:1.7">O resultado aparecerá aqui.</div><p style="font-size:13px;color:#64748b">Use JavaScript para ativar os botões.</p></div><div class="bar"></div></section><section class="s"><div class="top"><div><div class="k">Atividade integradora · arquivo pronto</div><h2>index.html — estrutura fornecida</h2></div><div class="n">ATIVIDADE</div></div><div class="code-title">Copie para index.html</div><pre>&lt;!doctype html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Laboratório de Números&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;main class=&quot;painel&quot;&gt;
+  &lt;h1&gt;Laboratório de Números&lt;/h1&gt;
+  &lt;p&gt;Digite um limite e escolha uma ação.&lt;/p&gt;
+  &lt;label for=&quot;limite&quot;&gt;Número final&lt;/label&gt;
+  &lt;input id=&quot;limite&quot; type=&quot;number&quot; min=&quot;1&quot; value=&quot;10&quot;&gt;
+  &lt;div class=&quot;botoes&quot;&gt;
+    &lt;button id=&quot;btnTodos&quot;&gt;Mostrar todos&lt;/button&gt;
+    &lt;button id=&quot;btnPares&quot;&gt;Mostrar pares&lt;/button&gt;
+    &lt;button id=&quot;btnLimpar&quot;&gt;Limpar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;h2&gt;Resultado&lt;/h2&gt;
+  &lt;div id=&quot;resultado&quot;&gt;O resultado aparecerá aqui.&lt;/div&gt;
+  &lt;p class=&quot;dica&quot;&gt;Use JavaScript para ativar os botões.&lt;/p&gt;
+&lt;/main&gt;
+&lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre><div class="bar"></div></section><section class="s"><div class="top"><div><div class="k">Atividade integradora · arquivo pronto</div><h2>style.css — aparência fornecida</h2></div><div class="n">ATIVIDADE</div></div><div class="code-title">Copie para style.css</div><pre>body { background: #f1f5f5; margin: 0; }
+.painel { max-width: 560px; margin: 35px auto;
+  padding: 28px; background: white; border-radius: 18px;
+  box-shadow: 0 8px 30px #0001; font-family: Arial; }
+.painel h1 { color: #115e59; font-size: 26px; }
+.painel label { display: block; margin: 18px 0 8px; }
+.painel input { padding: 10px; width: 100%; border: 1px solid #ccc; }
+.botoes { display: flex; gap: 8px; margin: 18px 0; flex-wrap: wrap; }
+.botoes button { background: #0f766e; color: white;
+  padding: 10px 13px; border: 0; border-radius: 8px; }
+#resultado { background: #e9f5f3; padding: 18px;
+  border-radius: 10px; min-height: 65px; line-height: 1.8; }
+.dica { font-size: 13px; color: #64748b; }</pre><div class="bar"></div></section><section class="s"><div class="top"><div><div class="k">Atividade integradora · arquivo do aluno</div><h2>script.js — complete as funções</h2></div><div class="n">ATIVIDADE</div></div><div class="code-title">Ponto de partida — não é a solução</div><pre>// Complete o arquivo script.js.
+// 1. Crie a função mostrarTodos().
+// 2. Crie a função mostrarPares().
+// 3. Crie a função limparResultado().
+// 4. Associe cada botão à função com addEventListener().
+
+function mostrarTodos() {
+  // Leia o número e use for.
+}
+
+function mostrarPares() {
+  // Use for e if para selecionar os pares.
+}
+
+function limparResultado() {
+  // Altere o conteúdo de #resultado.
+}
+
+// Registre os três eventos de clique aqui.</pre><div class="call">Dica: use <code>Number(document.querySelector("#limite").value)</code> para ler o limite e <code>document.querySelector("#resultado").innerHTML</code> para mostrar o texto.</div><div class="bar"></div></section><section class="s"><div class="top"><div><div class="k">Atividade integradora · comportamento</div><h2>O que deve acontecer ao executar</h2></div><div class="n">ATIVIDADE</div></div><div class="g2"><div class="c"><h3>Após “Mostrar todos” com limite 10</h3><div style="background:#e9f5f3;padding:18px;border-radius:10px">1 2 3 4 5 6 7 8 9 10</div></div><div class="c"><h3>Após “Mostrar pares” com limite 10</h3><div style="background:#e9f5f3;padding:18px;border-radius:10px">2 4 6 8 10</div></div></div><div class="call"><b>Critérios:</b> os botões devem funcionar sem <code>onclick</code> no HTML; a repetição deve usar <code>for</code>; o resultado deve aparecer dentro de <code>#resultado</code>.</div><div class="bar"></div></section><div class="controls"><button id="prev">←</button><span id="ct"></span><button id="next">→</button><button id="full">⛶</button></div><script>const slides=[...document.querySelectorAll('.s')];let i=0;function show(x){i=Math.max(0,Math.min(slides.length-1,x));slides.forEach((s,k)=>s.classList.toggle('on',k===i));document.getElementById('ct').textContent=`${i+1} / ${slides.length}`;document.querySelectorAll('.bar').forEach(b=>b.style.width=((i+1)/slides.length*100)+'%');window.scrollTo(0,0)}document.getElementById('prev').onclick=()=>show(i-1);document.getElementById('next').onclick=()=>show(i+1);document.getElementById('full').onclick=()=>document.documentElement.requestFullscreen?.();document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});show(0);</script></body></html>
